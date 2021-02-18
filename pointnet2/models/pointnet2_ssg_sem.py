@@ -49,7 +49,7 @@ class PointNet2SemSegSSG(PointNet2ClassificationSSG):
         )
 
         self.FP_modules = nn.ModuleList()
-        self.FP_modules.append(PointnetFPModule(mlp=[128 + 6, 128, 128, 128]))
+        self.FP_modules.append(PointnetFPModule(mlp=[128 + 3, 128, 128, 128]))
         self.FP_modules.append(PointnetFPModule(mlp=[256 + 64, 256, 128]))
         self.FP_modules.append(PointnetFPModule(mlp=[256 + 128, 256, 256]))
         self.FP_modules.append(PointnetFPModule(mlp=[512 + 256, 256, 256]))
