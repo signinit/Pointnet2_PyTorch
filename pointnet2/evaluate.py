@@ -35,7 +35,7 @@ def main(cfg):
     batches = math.ceil(all_points.shape[0] / 4096)
     print(all_points.shape[0])
     print(batches)
-    np_points = all_points[:,:3].resize((batches,4096,3))
+    np_points = np.resize(all_points[:,:3], (batches, 4096, 3))
     print(np_points.shape)
     points = torch.from_numpy(np.array([np_points])).float().cuda()
     
