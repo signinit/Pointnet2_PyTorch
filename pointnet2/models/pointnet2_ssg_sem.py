@@ -16,7 +16,7 @@ class PointNet2SemSegSSG(PointNet2ClassificationSSG):
                 npoint=1024,
                 radius=0.1,
                 nsample=32,
-                mlp=[3, 32, 32, 64],
+                mlp=[0, 32, 32, 64],
                 use_xyz=self.hparams["model.use_xyz"],
             )
         )
@@ -49,7 +49,7 @@ class PointNet2SemSegSSG(PointNet2ClassificationSSG):
         )
 
         self.FP_modules = nn.ModuleList()
-        self.FP_modules.append(PointnetFPModule(mlp=[128 + 3, 128, 128, 128]))
+        self.FP_modules.append(PointnetFPModule(mlp=[128 + 0, 128, 128, 128]))
         self.FP_modules.append(PointnetFPModule(mlp=[256 + 64, 256, 128]))
         self.FP_modules.append(PointnetFPModule(mlp=[256 + 128, 256, 256]))
         self.FP_modules.append(PointnetFPModule(mlp=[512 + 256, 256, 256]))
@@ -78,7 +78,6 @@ class PointNet2SemSegSSG(PointNet2ClassificationSSG):
 
         l_xyz, l_features = [xyz], [features]
         for i in range(len(self.SA_modules)):
-            print(i, l_xyz[i].shape,  l_features[i])
             li_xyz, li_features = self.SA_modules[i](l_xyz[i], l_features[i])
             l_xyz.append(li_xyz)
             l_features.append(li_features)
