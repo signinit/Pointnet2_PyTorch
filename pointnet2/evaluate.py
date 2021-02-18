@@ -32,7 +32,7 @@ def main(cfg):
     model = hydra.utils.instantiate(cfg.task_model, hydra_params_to_dotdict(cfg))
     points = torch.from_numpy(np.array([np.loadtxt(cfg.input, delimiter=",")[:4096,:3]])).float().cuda()
     print(points.size())
-    model.load_state_dict(torch.load(cfg.weights))
+    model.load_from_checkpoint(cfg.weights)
     model.eval()
     model.to(device)
     classes = model(points).numpy()
