@@ -36,7 +36,7 @@ def main(cfg):
     model.eval()
     model.to(device)
     classes = torch.argmax(model(points).detach().cpu(), dim=1).numpy()
-    np.savetxt("out.txt", np.concatenate([np_points, classes.reshape((4096,1))], axis=1))
+    np.savetxt("out.txt", np.concatenate([np_points, classes.reshape((4096,1))], axis=1), delimiter=",", fmt="%.6f")
 
 if __name__ == "__main__":
     main()
