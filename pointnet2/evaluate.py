@@ -30,12 +30,13 @@ def hydra_params_to_dotdict(hparams):
 def main(cfg):
     device = torch.device("cuda")
     model = hydra.utils.instantiate(cfg.task_model, hydra_params_to_dotdict(cfg))
-    points = torch.from_numpy(np.array([np.loadtxt(cfg.input, delimiter=",")[:4096,:3]])).float().cuda()
+    np_points = np.array([np.loadtxt(cfg.input, delimiter=",")[:4096,:3]])
+    points = torch.from_numpy(np_points).float().cuda()
     model.load_from_checkpoint(cfg.weights)
     model.eval()
     model.to(device)
-    classes = model(points).detach().cpu().clone().numpy()
-    np.savetxt("out.txt", np.concatenate([points, classes], axis=1))
+    classes = torch.argmax(model(points).detach().cpu(), dim=1).numpy()
+    np.savetxt("out.txt", np.concatenate([np_points, classes.reshape((4096,1))], axis=1))
 
 if __name__ == "__main__":
     main()
