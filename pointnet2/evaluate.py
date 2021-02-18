@@ -28,7 +28,7 @@ def hydra_params_to_dotdict(hparams):
 @hydra.main("config/config.yaml")
 def main(cfg):
     model = hydra.utils.instantiate(cfg.task_model, hydra_params_to_dotdict(cfg))
-    points = np.loadtxt(sys.argv[1], delimiter=",")[:,:3]
+    points = np.loadtxt(cfg.input, delimiter=",")[:,:3]
     print(points.shape)
     classes = model(points).numpy()
     print(classes.shape)
