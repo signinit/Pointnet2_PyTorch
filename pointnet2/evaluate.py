@@ -39,7 +39,8 @@ def main(cfg):
     model.eval()
     model.to(device)
     results = model(points).detach().cpu()
-    print(results)
+    print(results[0])
+    print(results.size())
     classes = torch.argmax(results, dim=1).numpy()
     np.savetxt("out.txt", np.concatenate([np_points, classes.reshape((4096,1))], axis=1), delimiter=",", fmt="%.6f")
 
