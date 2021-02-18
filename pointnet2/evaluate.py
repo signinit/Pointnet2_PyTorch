@@ -33,3 +33,6 @@ def main(cfg):
     classes = model(points).numpy()
     print(classes.shape)
     np.savetxt("out.txt", np.concatenate([points, classes], axis=1))
+
+if __name__ == "__main__":
+    main()
