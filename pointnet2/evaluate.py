@@ -31,11 +31,11 @@ def hydra_params_to_dotdict(hparams):
 @hydra.main("config/config.yaml")
 def main(cfg):
     device = torch.device("cuda")
-    all_points = np.loadtxt(cfg.input, delimiter=",")
+    all_points = np.loadtxt(cfg.input, delimiter=",")[:,:3]
     batches = math.ceil(all_points.shape[0] / 4096)
     print(all_points.shape[0])
     print(batches)
-    np_points = np.resize(all_points[:,:3], (batches, 4096, 3))
+    np_points = np.resize(all_points, (batches, 4096, 3))
     print(np_points.shape)
     points = torch.from_numpy(np_points).float().cuda()
     
@@ -46,7 +46,7 @@ def main(cfg):
     print(results[0][0])
     print(results.size())
     classes = torch.argmax(results, dim=1).numpy()
-    np.savetxt("out.txt", np.concatenate([np_points, classes.reshape((4096,1))], axis=1), delimiter=",", fmt="%.6f")
+    np.savetxt("out.txt", np.concatenate([all_points, classes.reshape((-1,1))], axis=1), delimiter=",", fmt="%.6f")
 
 if __name__ == "__main__":
     main()
