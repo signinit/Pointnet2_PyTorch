@@ -1,4 +1,5 @@
 import os
+import math
 import numpy as np
 import hydra
 import omegaconf
@@ -31,9 +32,11 @@ def hydra_params_to_dotdict(hparams):
 def main(cfg):
     device = torch.device("cuda")
     all_points = np.loadtxt(cfg.input, delimiter=",")
-    indices = np.arange(all_points.shape[0])
-    np.random.shuffle(indices)
-    np_points = all_points[indices[:4096],:3]
+    batches = math.ceil(all_points.shape[0] / 4096)
+    print(all_points.shape[0])
+    print(batches)
+    np_points = all_points[:,:3].resize((batches,4096,3))
+    print(np_points.shape)
     points = torch.from_numpy(np.array([np_points])).float().cuda()
     
     model = PointNet2SemSegSSG.load_from_checkpoint(cfg.weights)
