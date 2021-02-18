@@ -30,22 +30,13 @@ class Custom3DSemSeg(data.Dataset):
             self.labels = label_batchlist[:10]
 
     def __getitem__(self, idx):
-        pt_idxs = np.arange(0, len(self.points))
+        pt_idxs = np.arange(self.points[idx].shape[0])
         np.random.shuffle(pt_idxs)
 
         indices = pt_idxs[:4096]
 
-        print(self.points[idx].shape)
-        print(self.labels[idx].shape)
-
-        print(self.points[idx][indices].shape)
-        print(self.labels[idx][indices].shape)
-
         current_points = torch.from_numpy(self.points[idx][indices].copy()).float()
         current_labels = torch.from_numpy(self.labels[idx][indices].copy()).long()
-
-        print(current_labels.size())
-        print(current_points.size())
 
         return current_points, current_labels
 
