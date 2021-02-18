@@ -37,7 +37,7 @@ def main(cfg):
     print(batches)
     np_points = np.resize(all_points[:,:3], (batches, 4096, 3))
     print(np_points.shape)
-    points = torch.from_numpy(np.array([np_points])).float().cuda()
+    points = torch.from_numpy(np_points).float().cuda()
     
     model = PointNet2SemSegSSG.load_from_checkpoint(cfg.weights)
     model.eval()
