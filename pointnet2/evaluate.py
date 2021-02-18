@@ -34,7 +34,7 @@ def main(cfg):
     model.load_from_checkpoint(cfg.weights)
     model.eval()
     model.to(device)
-    classes = model(points).cpu().numpy()
+    classes = model(points).deatach().cpu().numpy()
     np.savetxt("out.txt", np.concatenate([points, classes], axis=1))
 
 if __name__ == "__main__":
