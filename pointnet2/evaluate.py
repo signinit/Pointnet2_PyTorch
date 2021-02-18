@@ -31,12 +31,10 @@ def main(cfg):
     device = torch.device("cuda")
     model = hydra.utils.instantiate(cfg.task_model, hydra_params_to_dotdict(cfg))
     points = torch.from_numpy(np.array([np.loadtxt(cfg.input, delimiter=",")[:4096,:3]])).float().cuda()
-    print(points.size())
     model.load_from_checkpoint(cfg.weights)
     model.eval()
     model.to(device)
-    classes = model(points).numpy()
-    print(classes.shape)
+    classes = model(points).cpu().numpy()
     np.savetxt("out.txt", np.concatenate([points, classes], axis=1))
 
 if __name__ == "__main__":
