@@ -36,6 +36,8 @@ class Custom3DSemSeg(data.Dataset):
         current_points = torch.from_numpy(self.points[idx][pt_idxs[:4096]].copy()).float()
         current_labels = torch.from_numpy(self.labels[idx][pt_idxs[:4096]].copy()).long()
 
+        print(current_labels)
+
         return current_points, current_labels
 
     def __len__(self):
