@@ -46,7 +46,7 @@ def main(cfg):
     print(results[0][0])
     print(results.size())
     classes = torch.argmax(results, dim=1).numpy()
-    np.savetxt("out.txt", np.concatenate([all_points, classes.reshape((-1,1))], axis=1), delimiter=",", fmt="%.6f")
+    np.savetxt("out.txt", np.concatenate([all_points, classes.reshape((-1,1))[:len(all_points)]], axis=1), delimiter=",", fmt="%.6f")
 
 if __name__ == "__main__":
     main()
