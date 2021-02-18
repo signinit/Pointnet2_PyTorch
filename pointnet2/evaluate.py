@@ -38,7 +38,9 @@ def main(cfg):
     model.load_from_checkpoint(cfg.weights)
     model.eval()
     model.to(device)
-    classes = torch.argmax(model(points).detach().cpu(), dim=1).numpy()
+    results = model(points).detach().cpu()
+    print(results)
+    classes = torch.argmax(results, dim=1).numpy()
     np.savetxt("out.txt", np.concatenate([np_points, classes.reshape((4096,1))], axis=1), delimiter=",", fmt="%.6f")
 
 if __name__ == "__main__":
