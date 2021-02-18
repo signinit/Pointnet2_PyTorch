@@ -7,7 +7,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def _load_data_file(name):
     lines = np.loadtxt(name, delimiter=",")
-    return lines[:][0:3], lines[:][3]
+    return lines[:,0:3], lines[:,3]
 
 
 class Custom3DSemSeg(data.Dataset):
