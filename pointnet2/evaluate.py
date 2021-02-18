@@ -28,7 +28,7 @@ def hydra_params_to_dotdict(hparams):
 @hydra.main("config/config.yaml")
 def main(cfg):
     model = hydra.utils.instantiate(cfg.task_model, hydra_params_to_dotdict(cfg))
-    points = torch.from_numpy(np.array([np.loadtxt(cfg.input, delimiter=",")[:,:3]])).float()
+    points = torch.from_numpy(np.array([np.loadtxt(cfg.input, delimiter=",")[:1024,:3]])).float()
     print(points.size())
     classes = model(points).numpy()
     print(classes.shape)
