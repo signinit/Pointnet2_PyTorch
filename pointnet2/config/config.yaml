@@ -10,6 +10,7 @@ hydra:
 gpus:
     - 0
 
+weights: unkown
 input: unkown
 
 optimizer: ???
