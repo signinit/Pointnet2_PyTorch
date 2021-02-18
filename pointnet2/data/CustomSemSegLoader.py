@@ -23,11 +23,11 @@ class Custom3DSemSeg(data.Dataset):
             label_batchlist.append(label)
 
         if self.train:
-            self.points = data_batchlist[0:81]
-            self.labels = label_batchlist[0:81]
+            self.points = data_batchlist[10:]
+            self.labels = label_batchlist[10:]
         else:
-            self.points = data_batchlist[81:, ...]
-            self.labels = label_batchlist[81:, ...]
+            self.points = data_batchlist[:10]
+            self.labels = label_batchlist[:10]
 
     def __getitem__(self, idx):
         pt_idxs = np.arange(0, self.num_points)
