@@ -34,7 +34,7 @@ def main(cfg):
     checkpoint_callback = pl.callbacks.ModelCheckpoint(
         monitor="val_acc",
         mode="max",
-        save_best_only=True,
+        save_top_k=1,
         filepath=cfg.output,
         verbose=True,
     )
