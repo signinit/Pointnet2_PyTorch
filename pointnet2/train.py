@@ -33,7 +33,8 @@ def main(cfg):
 
     early_stop_callback = pl.callbacks.EarlyStopping(patience=5)
     checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
-        filepath=cfg.output,
+        filepath=cfg.output_file,
+        dirpath=cfg.output_dir,
         save_best_only=True,
         verbose=True,
         monitor='val_loss',
