@@ -90,5 +90,5 @@ class PointNet2SemSegSSG(PointNet2ClassificationSSG):
         return self.fc_lyaer(l_features[0])
 
     def prepare_data(self):
-        self.train_dset = Custom3DSemSeg(self.hparams["num_points"], train=True)
-        self.val_dset = Custom3DSemSeg(self.hparams["num_points"], train=False)
+        self.train_dset = Custom3DSemSeg(self.hparams["batch_dir"], self.hparams["batch_file"], self.hparams["num_points"], train=True)
+        self.val_dset = Custom3DSemSeg(self.hparams["batch_dir"], self.hparams["batch_file"], self.hparams["num_points"], train=False)

@@ -11,23 +11,29 @@ def _load_data_file(name):
 
 
 class Custom3DSemSeg(data.Dataset):
-    def __init__(self, num_points, train=True):
+    def __init__(self, batch_dir, batch_file, num_points, train=True):
         super().__init__()
 
         self.train, self.num_points = train, num_points
 
+        file = open(os.path.join(BASE_DIR, batch_dir, batch_file), 'r')
+        batches = file.readlines()
+        batch_amount = len(batches)
+        training_percentage = 0.1
+        training_amount = round(training_percentage * batch_amount)
+
         data_batchlist, label_batchlist = [], []
-        for i in range(91):
-            data, label = _load_data_file(os.path.join(BASE_DIR, "city-1/city-block-" + str(i) + ".txt"))
+        for batch_url in batches:
+            data, label = _load_data_file(os.path.join(BASE_DIR, batch_dir, batch_url))
             data_batchlist.append(data)
             label_batchlist.append(label)
 
         if self.train:
-            self.points = data_batchlist[10:]
-            self.labels = label_batchlist[10:]
+            self.points = data_batchlist[training_amount:]
+            self.labels = label_batchlist[training_amount:]
         else:
-            self.points = data_batchlist[:10]
-            self.labels = label_batchlist[:10]
+            self.points = data_batchlist[:training_amount]
+            self.labels = label_batchlist[:training_amount]
 
     def __getitem__(self, idx):
         pt_idxs = np.arange(self.points[idx].shape[0])
@@ -51,7 +57,7 @@ class Custom3DSemSeg(data.Dataset):
 
 
 if __name__ == "__main__":
-    dset = Custom3DSemSeg(16, train=True)
+    dset = Custom3DSemSeg("", "", 16, train=True)
     print(dset[0])
     print(len(dset))
     dloader = torch.utils.data.DataLoader(dset, batch_size=32, shuffle=True)

@@ -13,6 +13,9 @@ gpus:
 weights: unkown
 input: unkown
 
+batch_file: ???
+batch_dir: ???
+
 optimizer: ???
 
 task_model: ???
