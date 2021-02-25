@@ -59,7 +59,7 @@ class PointNet2SemSegSSG(PointNet2ClassificationSSG):
             nn.BatchNorm1d(128),
             nn.ReLU(True),
             nn.Dropout(0.5),
-            nn.Conv1d(128, self.hparams.classes, kernel_size=1),
+            nn.Conv1d(128, self.hparams["classes"], kernel_size=1),
         )
 
     def forward(self, pointcloud):
