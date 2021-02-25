@@ -5,7 +5,6 @@ import omegaconf
 import pytorch_lightning as pl
 import torch
 from pytorch_lightning.loggers import TensorBoardLogger
-import tensorflow as tf
 
 torch.backends.cudnn.enabled = True
 torch.backends.cudnn.benchmark = True
@@ -32,22 +31,16 @@ def main(cfg):
     model = hydra.utils.instantiate(cfg.task_model, hydra_params_to_dotdict(cfg))
 
     early_stop_callback = pl.callbacks.EarlyStopping(patience=5)
-    checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
-        filepath=cfg.output,
-        save_best_only=True,
-        verbose=True,
-        monitor='val_loss',
-        mode='min'
-    )
+
     trainer = pl.Trainer(
         gpus=list(cfg.gpus),
         max_epochs=cfg.epochs,
         early_stop_callback=early_stop_callback,
-        checkpoint_callback=checkpoint_callback,
         distributed_backend=cfg.distrib_backend,
     )
 
     trainer.fit(model)
+    model.save(cfg.output)
 
 
 if __name__ == "__main__":
