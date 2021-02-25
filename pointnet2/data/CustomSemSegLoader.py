@@ -35,12 +35,12 @@ class Custom3DSemSeg(data.Dataset):
             self.points = data_batchlist[:training_amount]
             self.labels = label_batchlist[:training_amount]
 
-        print(self.points.shape)
-        print(self.labels.shape)
-
     def __getitem__(self, idx):
         pt_idxs = np.arange(self.points[idx].shape[0])
         np.random.shuffle(pt_idxs)
+
+        print(self.points[idx].shape)
+        print(self.points[idx].shape)
 
         indices = pt_idxs[:4096]
 
