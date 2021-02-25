@@ -35,7 +35,7 @@ def main(cfg):
         monitor="val_acc",
         mode="max",
         save_top_k=1,
-        filename=cfg.output,
+        filepath=cfg.output,
         verbose=True,
     )
     trainer = pl.Trainer(
