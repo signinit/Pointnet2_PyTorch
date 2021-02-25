@@ -10,11 +10,14 @@ hydra:
 gpus:
     - 0
 
+#predict
 weights: unkown
 input: unkown
 
-batch_file: ???
-batch_dir: ???
+#train
+batch_file: unkown
+batch_dir: unkown
+output: unkown
 
 optimizer: ???
 
