@@ -33,18 +33,13 @@ def main(cfg):
     device = torch.device("cuda")
     all_points = np.loadtxt(cfg.input, delimiter=",")[:,:3]
     batches = math.ceil(all_points.shape[0] / 4096)
-    print(all_points.shape[0])
-    print(batches)
     np_points = np.resize(all_points, (batches, 4096, 3))
-    print(np_points.shape)
     points = torch.from_numpy(np_points).float().cuda()
     
     model = PointNet2SemSegSSG.load_from_checkpoint(cfg.weights)
     model.eval()
     model.to(device)
     results = model(points).detach().cpu()
-    print(results[0][0])
-    print(results.size())
     classes = torch.argmax(results, dim=1).numpy()
     np.savetxt("out.txt", np.concatenate([all_points, classes.reshape((-1,1))[:len(all_points)]], axis=1), delimiter=",", fmt="%.6f")
 
