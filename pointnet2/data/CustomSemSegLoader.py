@@ -17,7 +17,7 @@ class Custom3DSemSeg(data.Dataset):
         self.train, self.num_points = train, num_points
 
         file = open(os.path.join(BASE_DIR, batch_dir, batch_file), 'r')
-        batches = file.readlines()
+        batches = file.read().splitlines()
         batch_amount = len(batches)
         training_percentage = 0.1
         training_amount = round(training_percentage * batch_amount)
