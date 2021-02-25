@@ -36,7 +36,7 @@ class Custom3DSemSeg(data.Dataset):
             self.labels = label_batchlist[:training_amount]
         
         print(self.points[0].shape)
-        print(self.points[0].shape)
+        print(self.labels[0].shape)
 
     def __getitem__(self, idx):
         pt_idxs = np.arange(self.points[idx].shape[0])
