@@ -18,6 +18,7 @@ input: unkown
 batch_file: unkown
 batch_dir: unkown
 output: unkown
+classes: 0
 
 optimizer: ???
 

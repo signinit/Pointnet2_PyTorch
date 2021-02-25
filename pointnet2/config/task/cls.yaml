@@ -8,5 +8,5 @@ optimizer:
 
 
 num_points: 4096
-epochs: 200
+epochs: 50
 batch_size: 32
