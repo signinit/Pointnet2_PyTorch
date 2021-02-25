@@ -1,2 +1,9 @@
 MultipleCubes_0.txt
 MultipleCubes_1.txt
+MultipleCubes_2.txt
+MultipleCubes_3.txt
+MultipleCubes_4.txt
+MultipleCubes_5.txt
+MultipleCubes_6.txt
+MultipleCubes_7.txt
+MultipleCubes_8.txt
