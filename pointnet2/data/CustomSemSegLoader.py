@@ -22,6 +22,9 @@ class Custom3DSemSeg(data.Dataset):
         training_percentage = 0.1
         training_amount = round(training_percentage * batch_amount)
 
+        print(training_amount)
+        print(batch_amount)
+
         data_batchlist, label_batchlist = [], []
         for batch_url in batches:
             data, label = _load_data_file(os.path.join(BASE_DIR, batch_dir, batch_url))
