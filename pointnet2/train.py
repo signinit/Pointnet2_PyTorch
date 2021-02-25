@@ -40,7 +40,7 @@ def main(cfg):
     )
 
     trainer.fit(model)
-    model.save_checkpoint(cfg.output)
+    trainer.save_checkpoint(cfg.output)
 
 
 if __name__ == "__main__":
