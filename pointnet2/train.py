@@ -32,11 +32,12 @@ def main(cfg):
 
     early_stop_callback = pl.callbacks.EarlyStopping(patience=5)
     checkpoint_callback = pl.callbacks.ModelCheckpoint(
-        monitor="val_acc",
-        mode="max",
-        save_top_k=1,
         filepath=cfg.output,
+        save_best_only=True,
         verbose=True,
+        monitor='val_loss',
+        mode='min',
+        prefix=''
     )
     trainer = pl.Trainer(
         gpus=list(cfg.gpus),
