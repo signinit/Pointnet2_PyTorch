@@ -17,8 +17,7 @@ input: unkown
 #train
 batch_file: unkown
 batch_dir: unkown
-output_file: unkown
-output_dir: unkown
+output: unkown
 
 optimizer: ???
 
