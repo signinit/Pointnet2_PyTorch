@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader, DistributedSampler
 from torchvision import transforms
 
 import pointnet2.data.data_utils as d_utils
-from pointnet2.data.ModelNet40Loader import ModelNet40Cls
+from pointnet2.data import Custom3DClassification
 
 
 def set_bn_momentum_default(bn_momentum):
@@ -94,7 +94,7 @@ class PointNet2ClassificationSSG(pl.LightningModule):
             nn.BatchNorm1d(256),
             nn.ReLU(True),
             nn.Dropout(0.5),
-            nn.Linear(256, 40),
+            nn.Linear(256, self.hparams["classes"]),
         )
 
     def _break_up_pc(self, pc):
@@ -194,24 +194,20 @@ class PointNet2ClassificationSSG(pl.LightningModule):
         return [optimizer], [lr_scheduler, bnm_scheduler]
 
     def prepare_data(self):
-        train_transforms = transforms.Compose(
-            [
-                d_utils.PointcloudToTensor(),
-                d_utils.PointcloudScale(),
-                d_utils.PointcloudRotate(),
-                d_utils.PointcloudRotatePerturbation(),
-                d_utils.PointcloudTranslate(),
-                d_utils.PointcloudJitter(),
-                d_utils.PointcloudRandomInputDropout(),
-            ]
-        )
-
-        self.train_dset = ModelNet40Cls(
-            self.hparams["num_points"], transforms=train_transforms, train=True
-        )
-        self.val_dset = ModelNet40Cls(
-            self.hparams["num_points"], transforms=None, train=False
-        )
+        #train_transforms = transforms.Compose(
+        #    [
+        #        d_utils.PointcloudToTensor(),
+        #        d_utils.PointcloudScale(),
+        #        d_utils.PointcloudRotate(),
+        #        d_utils.PointcloudRotatePerturbation(),
+        #        d_utils.PointcloudTranslate(),
+        #        d_utils.PointcloudJitter(),
+        #        d_utils.PointcloudRandomInputDropout(),
+        #    ]
+        #)
+        
+        self.train_dset = Custom3DClassification(self.hparams["batch_dir"], self.hparams["batch_file"], self.hparams["num_points"], train=True)
+        self.val_dset = Custom3DClassification(self.hparams["batch_dir"], self.hparams["batch_file"], self.hparams["num_points"], train=False)
 
     def _build_dataloader(self, dset, mode):
         return DataLoader(
