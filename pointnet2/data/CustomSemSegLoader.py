@@ -38,7 +38,6 @@ class Custom3DSemSeg(data.Dataset):
             self.points = np.array(data_batchlist[:training_amount])
             self.labels = np.array(label_batchlist[:training_amount])
 
-        print(self.labels[0:10])
 
     def __getitem__(self, idx):
         pt_idxs = np.arange(0, self.num_points)
@@ -46,6 +45,7 @@ class Custom3DSemSeg(data.Dataset):
 
         current_points = torch.from_numpy(self.points[idx, pt_idxs]).float()
         current_labels = torch.from_numpy(self.labels[idx, pt_idxs]).long()
+        print(current_labels[0:10])
 
         return current_points, current_labels
 
