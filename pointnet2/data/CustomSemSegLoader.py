@@ -40,7 +40,8 @@ class Custom3DSemSeg(data.Dataset):
 
 
     def __getitem__(self, idx):
-        pt_idxs = np.arange(0, self.num_points)
+        all_pt_idxs = np.arange(0, self.points[idx].shape[0])
+        pt_idxs = all_pt_idxs[:self.num_points]
         np.random.shuffle(pt_idxs)
 
         current_points = torch.from_numpy(self.points[idx, pt_idxs]).float()
