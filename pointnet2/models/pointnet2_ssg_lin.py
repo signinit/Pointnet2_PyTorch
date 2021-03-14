@@ -66,6 +66,8 @@ class PointNet2LinearSSG(PointNet2ClassificationSSG):
 
     def validation_step(self, batch, batch_idx):
         pc, labels = batch
+        print(pc.size())
+        print(labels)
 
         logits = self.forward(pc)
         print(logits.size())
