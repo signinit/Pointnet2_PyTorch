@@ -5,7 +5,7 @@ from pointnet2_ops.pointnet2_modules import PointnetFPModule, PointnetSAModule
 from torch.utils.data import DataLoader
 import torch.nn.functional as F
 
-from pointnet2.data import Custom3DClassification
+from pointnet2.data import Custom3DLinear
 from pointnet2.models.pointnet2_ssg_cls import PointNet2ClassificationSSG
 
 
@@ -90,5 +90,5 @@ class PointNet2LinearSSG(PointNet2ClassificationSSG):
         return dict(val_loss=loss, val_acc=acc)
 
     def prepare_data(self):
-        self.train_dset = Custom3DClassification(self.hparams["batch_dir"], self.hparams["batch_file"], self.hparams["num_points"], train=True)
-        self.val_dset = Custom3DClassification(self.hparams["batch_dir"], self.hparams["batch_file"], self.hparams["num_points"], train=False)
+        self.train_dset = Custom3DLinear(self.hparams["batch_dir"], self.hparams["batch_file"], self.hparams["num_points"], train=True)
+        self.val_dset = Custom3DLinear(self.hparams["batch_dir"], self.hparams["batch_file"], self.hparams["num_points"], train=False)

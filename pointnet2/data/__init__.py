@@ -2,3 +2,4 @@ from .Indoor3DSemSegLoader import Indoor3DSemSeg
 from .ModelNet40Loader import ModelNet40Cls
 from .CustomSemSegLoader import Custom3DSemSeg
 from .CustomClassificationLoader import Custom3DClassification
+from .CustomLinearLoader import Custom3DLinear
