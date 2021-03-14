@@ -36,6 +36,8 @@ def main(cfg):
     batches = math.ceil(all_points.shape[0] / 4096)
     np_points = np.resize(all_points, (batches, 4096, 3))
     points = torch.from_numpy(np_points).float().cuda()
+    
+    print(cfg.task_model)
 
     model = cfg.task_model.class.load_from_checkpoint(cfg.weights)
     model.eval()
