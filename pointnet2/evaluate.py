@@ -8,6 +8,7 @@ import torch
 from pytorch_lightning.loggers import TensorBoardLogger
 from pointnet2.models import PointNet2SemSegSSG
 from pointnet2.models import PointNet2ClassificationSSG
+from pointnet2.models import PointNet2LinearSSG
 
 torch.backends.cudnn.enabled = True
 torch.backends.cudnn.benchmark = True
@@ -41,12 +42,14 @@ def main(cfg):
         model = PointNet2ClassificationSSG.load_from_checkpoint(cfg.weights)
     if(cfg.task_model.name == "sem-ssg"):
         model = PointNet2SemSegSSG.load_from_checkpoint(cfg.weights)
+    if(cfg.task_model.name == "lin-ssg"):
+        model = PointNet2LinearSSG.load_from_checkpoint(cfg.weights)
 
     model.eval()
     model.to(device)
     results = model(points).detach().cpu()
     classes = torch.argmax(results, dim=1).numpy()
-    if(cfg.task_model.name == "cls-ssg"):
+    if(cfg.task_model.name == "cls-ssg" or cfg.task_mode.name == "lin-ssg"):
         print(classes[0])
     if(cfg.task_model.name == "sem-ssg"):
         np.savetxt("out.txt", np.concatenate([all_points, classes.reshape((-1,1))[:len(all_points)]], axis=1), delimiter=",", fmt="%.6f")
