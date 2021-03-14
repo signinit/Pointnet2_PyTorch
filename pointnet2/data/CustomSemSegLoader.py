@@ -22,6 +22,8 @@ class Custom3DSemSeg(data.Dataset):
         training_percentage = 0.1
         training_amount = round(training_percentage * batch_amount)
 
+        print(training_amount)
+
         if(training_amount == 0):
             raise ValueError("to few data, training amount is 0")
 
