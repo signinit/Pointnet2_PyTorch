@@ -49,7 +49,9 @@ class PointNet2LinearSSG(PointNet2ClassificationSSG):
         )
 
     def training_step(self, batch, batch_idx):
-        pc, labels = batch
+        pc, labels_double = batch
+
+        labels = labels_double.float()
 
         logits = self.forward(pc)
         values = logits[:,0]
@@ -62,7 +64,9 @@ class PointNet2LinearSSG(PointNet2ClassificationSSG):
         return dict(loss=loss, log=log, progress_bar=dict(train_acc=acc))
 
     def validation_step(self, batch, batch_idx):
-        pc, labels = batch
+        pc, labels_double = batch
+        
+        labels = labels_double.float()
 
         logits = self.forward(pc)
         values = logits[:,0]
