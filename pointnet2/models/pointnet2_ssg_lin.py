@@ -89,6 +89,23 @@ class PointNet2LinearSSG(PointNet2ClassificationSSG):
 
         return dict(val_loss=loss, val_acc=acc)
 
+    def forward(self, pointcloud):
+        r"""
+            Forward pass of the network
+
+            Parameters
+            ----------
+            pointcloud: Variable(torch.cuda.FloatTensor)
+                (B, N, 3 + input_channels) tensor
+                Point cloud to run predicts on
+                Each point in the point-cloud MUST
+                be formated as (x, y, z, features...)
+        """
+        xyz, features = self._break_up_pc(pointcloud)
+
+        for module in self.SA_modules:
+            xyz, features = module(xyz, features)
+
     def prepare_data(self):
         self.train_dset = Custom3DLinear(self.hparams["batch_dir"], self.hparams["batch_file"], self.hparams["num_points"], train=True)
         self.val_dset = Custom3DLinear(self.hparams["batch_dir"], self.hparams["batch_file"], self.hparams["num_points"], train=False)
