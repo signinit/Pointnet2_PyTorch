@@ -83,6 +83,7 @@ class PointNet2LinearSSG(PointNet2ClassificationSSG):
         pc, labels = batch
 
         logits = self.forward(pc)
+        print(logits.size())
         values = logits[:,0]
         loss = F.mse_loss(values, labels)
         acc = (values - labels).float().mean()
