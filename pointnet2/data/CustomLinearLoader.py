@@ -48,7 +48,7 @@ class Custom3DLinear(data.Dataset):
 
         current_points = torch.from_numpy(self.points[idx, pt_idxs]).float()
 
-        return current_points,  torch.from_numpy(self.labels[idx]).long()
+        return current_points,  self.labels[idx]
 
     def __len__(self):
         return len(self.points)
