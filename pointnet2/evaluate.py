@@ -52,7 +52,7 @@ def main(cfg):
         classes = torch.argmax(results, dim=1).numpy()
         print(classes[0])
     if(cfg.task_model.name == "lin-ssg"):
-        print(results)
+        print(results[0,0])
     if(cfg.task_model.name == "sem-ssg"):
         classes = torch.argmax(results, dim=1).numpy()
         np.savetxt("out.txt", np.concatenate([all_points, classes.reshape((-1,1))[:len(all_points)]], axis=1), delimiter=",", fmt="%.6f")
