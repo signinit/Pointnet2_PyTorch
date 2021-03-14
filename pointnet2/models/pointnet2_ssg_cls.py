@@ -132,7 +132,7 @@ class PointNet2ClassificationSSG(pl.LightningModule):
 
         log = dict(train_loss=loss, train_acc=acc)
 
-        print(loss.size())
+        print(loss)
 
         return dict(loss=loss, log=log, progress_bar=dict(train_acc=acc))
 
@@ -143,7 +143,7 @@ class PointNet2ClassificationSSG(pl.LightningModule):
         loss = F.cross_entropy(logits, labels)
         acc = (torch.argmax(logits, dim=1) == labels).float().mean()
         
-        print(loss.size())
+        print(loss)
 
         return dict(val_loss=loss, val_acc=acc)
 
