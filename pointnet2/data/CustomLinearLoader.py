@@ -32,7 +32,7 @@ class Custom3DLinear(data.Dataset):
             batch_url, label = batch.split(";")
             data = _load_data_file(os.path.join(BASE_DIR, batch_dir, batch_url))
             data_batchlist.append(data)
-            label_batchlist.append(label)
+            label_batchlist.append(float(label))
 
         if self.train:
             self.points = np.array(data_batchlist[training_amount:])

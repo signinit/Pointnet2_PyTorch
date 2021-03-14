@@ -50,15 +50,12 @@ class PointNet2LinearSSG(PointNet2ClassificationSSG):
 
     def training_step(self, batch, batch_idx):
         pc, labels = batch
-        print(pc.size())
-        print(labels)
 
         logits = self.forward(pc)
-        print(logits.size())
-        value = logits[0]
-        loss = F.mse_loss(value, labels)
+        values = logits[:,0]
+        loss = F.mse_loss(values, labels)
         with torch.no_grad():
-            acc = (value - labels).float().mean()
+            acc = (values - labels).float().mean()
 
         log = dict(train_loss=loss, train_acc=acc)
 
@@ -66,14 +63,11 @@ class PointNet2LinearSSG(PointNet2ClassificationSSG):
 
     def validation_step(self, batch, batch_idx):
         pc, labels = batch
-        print(pc.size())
-        print(labels)
 
         logits = self.forward(pc)
-        print(logits.size())
-        value = logits[0]
-        loss = F.mse_loss(value, labels)
-        acc = (value - labels).float().mean()
+        values = logits[:,0]
+        loss = F.mse_loss(values, labels)
+        acc = (values - labels).float().mean()
 
         return dict(val_loss=loss, val_acc=acc)
 
