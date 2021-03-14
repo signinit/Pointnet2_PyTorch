@@ -37,6 +37,8 @@ def main(cfg):
     np_points = np.resize(all_points, (batches, 4096, 3))
     points = torch.from_numpy(np_points).float().cuda()
     
+    print(cfg.task_model)
+
     #TODO depend on model type ...
     if(cfg.task_model == "cls-ssg"):
         model = PointNet2ClassificationSSG.load_from_checkpoint(cfg.weights)
