@@ -39,7 +39,7 @@ def main(cfg):
     
     print(cfg.task_model)
 
-    model = cfg.task_model.class.load_from_checkpoint(cfg.weights)
+    model = cfg.task_model['class'].load_from_checkpoint(cfg.weights)
     model.eval()
     model.to(device)
     results = model(points).detach().cpu()
