@@ -14,7 +14,6 @@ def _load_data_file(name):
 
 class Custom3DLinear(Custom3DClassification):
     def __init__(self, batch_dir, batch_file, num_points, train=True):
-        super().__init__()
 
         self.train, self.num_points = train, num_points
 
