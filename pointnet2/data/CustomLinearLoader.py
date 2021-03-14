@@ -12,8 +12,9 @@ def _load_data_file(name):
     return lines[:,0:3]
 
 
-class Custom3DLinear(Custom3DClassification):
+class Custom3DLinear(data.Dataset):
     def __init__(self, batch_dir, batch_file, num_points, train=True):
+        super().__init__()
 
         self.train, self.num_points = train, num_points
 
@@ -39,3 +40,32 @@ class Custom3DLinear(Custom3DClassification):
         else:
             self.points = np.array(data_batchlist[:training_amount])
             self.labels = np.array(label_batchlist[:training_amount])
+
+    def __getitem__(self, idx):
+        all_pt_idxs = np.arange(0, self.points[idx].shape[0])
+        np.random.shuffle(all_pt_idxs)
+        pt_idxs = all_pt_idxs[:self.num_points]
+
+        current_points = torch.from_numpy(self.points[idx, pt_idxs]).float()
+
+        return current_points, self.labels[idx]
+
+    def __len__(self):
+        return len(self.points)
+
+    def set_num_points(self, pts):
+        self.num_points = pts
+
+    def randomize(self):
+        pass
+
+
+if __name__ == "__main__":
+    dset = Custom3DClassification("", "", 16, train=True)
+    print(dset[0])
+    print(len(dset))
+    dloader = torch.utils.data.DataLoader(dset, batch_size=32, shuffle=True)
+    for i, data in enumerate(dloader, 0):
+        inputs, labels = data
+        if i == len(dloader) - 1:
+            print(inputs.size())
