@@ -107,6 +107,8 @@ class PointNet2LinearSSG(PointNet2ClassificationSSG):
         for module in self.SA_modules:
             xyz, features = module(xyz, features)
 
+        return self.fc_layer(features.squeeze(-1))
+        
     def prepare_data(self):
         self.train_dset = Custom3DLinear(self.hparams["batch_dir"], self.hparams["batch_file"], self.hparams["num_points"], train=True)
         self.val_dset = Custom3DLinear(self.hparams["batch_dir"], self.hparams["batch_file"], self.hparams["num_points"], train=False)
