@@ -38,8 +38,8 @@ class Custom3DSemSeg(data.Dataset):
             self.points = np.array(data_batchlist[:training_amount])
             self.labels = np.array(label_batchlist[:training_amount])
         
-        print(self.points.size())
-        print(self.labels.size())
+        print(self.points.shape)
+        print(self.labels.shape)
 
 
     def __getitem__(self, idx):
