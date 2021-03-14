@@ -22,8 +22,6 @@ class Custom3DSemSeg(data.Dataset):
         training_percentage = 0.1
         training_amount = round(training_percentage * batch_amount)
 
-        print(training_amount)
-
         if(training_amount == 0):
             raise ValueError("to few data, training amount is 0")
 
@@ -48,6 +46,9 @@ class Custom3DSemSeg(data.Dataset):
 
         current_points = torch.from_numpy(self.points[idx, pt_idxs]).float()
         current_labels = torch.from_numpy(self.labels[idx, pt_idxs]).long()
+
+        print(current_labels.size())
+        print(current_labels.size())
 
         return current_points, current_labels
 
