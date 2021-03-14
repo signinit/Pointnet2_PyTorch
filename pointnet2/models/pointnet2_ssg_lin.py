@@ -57,7 +57,7 @@ class PointNet2LinearSSG(PointNet2ClassificationSSG):
         values = logits[:,0]
         loss = F.mse_loss(values, labels)
         with torch.no_grad():
-            acc = (values - labels).float().mean()
+            acc = (1 - values - labels).float().mean()
 
         log = dict(train_loss=loss, train_acc=acc)
 
@@ -71,7 +71,7 @@ class PointNet2LinearSSG(PointNet2ClassificationSSG):
         logits = self.forward(pc)
         values = logits[:,0]
         loss = F.mse_loss(values, labels)
-        acc = (values - labels).float().mean()
+        acc = (1 - values - labels).float().mean()
 
         return dict(val_loss=loss, val_acc=acc)
 
