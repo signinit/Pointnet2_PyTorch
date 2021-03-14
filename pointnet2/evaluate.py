@@ -36,14 +36,8 @@ def main(cfg):
     batches = math.ceil(all_points.shape[0] / 4096)
     np_points = np.resize(all_points, (batches, 4096, 3))
     points = torch.from_numpy(np_points).float().cuda()
-    
-    print(cfg.task_model)
 
-    #TODO depend on model type ...
-    if(cfg.task_model == "cls-ssg"):
-        model = PointNet2ClassificationSSG.load_from_checkpoint(cfg.weights)
-    if(cfg.task_model == "sem-ssg"):
-        model = PointNet2SemSegSSG.load_from_checkpoint(cfg.weights)
+    model = cfg.task_model.class.load_from_checkpoint(cfg.weights)
     model.eval()
     model.to(device)
     results = model(points).detach().cpu()
