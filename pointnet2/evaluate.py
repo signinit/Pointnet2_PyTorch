@@ -41,12 +41,15 @@ def main(cfg):
         model = PointNet2ClassificationSSG.load_from_checkpoint(cfg.weights)
     if(cfg.task_model.name == "sem-ssg"):
         model = PointNet2SemSegSSG.load_from_checkpoint(cfg.weights)
-        
+
     model.eval()
     model.to(device)
     results = model(points).detach().cpu()
-    classes = torch.argmax(results, dim=1).numpy()
-    np.savetxt("out.txt", np.concatenate([all_points, classes.reshape((-1,1))[:len(all_points)]], axis=1), delimiter=",", fmt="%.6f")
+    if(cfg.task_model.name == "cls-ssg"):
+        print(results)
+    if(cfg.task_model.name == "sem-ssg"):
+        classes = torch.argmax(results, dim=1).numpy()
+        np.savetxt("out.txt", np.concatenate([all_points, classes.reshape((-1,1))[:len(all_points)]], axis=1), delimiter=",", fmt="%.6f")
 
 if __name__ == "__main__":
     main()
