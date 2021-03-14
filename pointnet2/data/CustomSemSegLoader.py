@@ -20,7 +20,7 @@ class Custom3DSemSeg(data.Dataset):
         batches = file.read().splitlines()
         batch_amount = len(batches)
         training_percentage = 0.1
-        training_amount = round(training_percentage * batch_amount)
+        training_amount = max(2, round(training_percentage * batch_amount))
 
         if(training_amount == 0):
             raise ValueError("to few data, training amount is 0")
