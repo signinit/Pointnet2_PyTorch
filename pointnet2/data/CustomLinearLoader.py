@@ -13,8 +13,10 @@ def _load_data_file(name):
 
 
 class Custom3DLinear(data.Dataset):
-    def __init__(self, batch_dir, batch_file, num_points, train=True):
+    def __init__(self, batch_dir, batch_file, num_points, transforms=None, train=True):
         super().__init__()
+        
+        self.transforms = transforms
 
         self.train, self.num_points = train, num_points
 
@@ -47,6 +49,9 @@ class Custom3DLinear(data.Dataset):
         pt_idxs = all_pt_idxs[:self.num_points]
 
         current_points = torch.from_numpy(self.points[idx, pt_idxs]).float()
+
+        if self.transforms is not None:
+            current_points = self.transforms(current_points)
 
         return current_points,  self.labels[idx]
 

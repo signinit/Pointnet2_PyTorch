@@ -2,11 +2,13 @@ import pytorch_lightning as pl
 import torch
 import torch.nn as nn
 from pointnet2_ops.pointnet2_modules import PointnetFPModule, PointnetSAModule
-from torch.utils.data import DataLoader
 import torch.nn.functional as F
+from torch.utils.data import DataLoader, DistributedSampler
+from torchvision import transforms
 
 from pointnet2.data import Custom3DLinear
 from pointnet2.models.pointnet2_ssg_cls import PointNet2ClassificationSSG
+import pointnet2.data.data_utils as d_utils
 
 
 class PointNet2LinearSSG(PointNet2ClassificationSSG):
@@ -95,5 +97,12 @@ class PointNet2LinearSSG(PointNet2ClassificationSSG):
         return self.fc_layer(features.squeeze(-1))
 
     def prepare_data(self):
-        self.train_dset = Custom3DLinear(self.hparams["batch_dir"], self.hparams["batch_file"], self.hparams["num_points"], train=True)
+        train_transforms = transforms.Compose(
+            [
+                d_utils.PointcloudJitter(),
+                d_utils.PointcloudRandomInputDropout(),
+            ]
+        )
+
+        self.train_dset = Custom3DLinear(self.hparams["batch_dir"], self.hparams["batch_file"], self.hparams["num_points"], train_transforms, train=True)
         self.val_dset = Custom3DLinear(self.hparams["batch_dir"], self.hparams["batch_file"], self.hparams["num_points"], train=False)

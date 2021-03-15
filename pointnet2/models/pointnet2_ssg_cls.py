@@ -194,19 +194,14 @@ class PointNet2ClassificationSSG(pl.LightningModule):
         return [optimizer], [lr_scheduler, bnm_scheduler]
 
     def prepare_data(self):
-        #train_transforms = transforms.Compose(
-        #    [
-        #        d_utils.PointcloudToTensor(),
-        #        d_utils.PointcloudScale(),
-        #        d_utils.PointcloudRotate(),
-        #        d_utils.PointcloudRotatePerturbation(),
-        #        d_utils.PointcloudTranslate(),
-        #        d_utils.PointcloudJitter(),
-        #        d_utils.PointcloudRandomInputDropout(),
-        #    ]
-        #)
+        train_transforms = transforms.Compose(
+            [
+                d_utils.PointcloudJitter(),
+                d_utils.PointcloudRandomInputDropout(),
+            ]
+        )
         
-        self.train_dset = Custom3DClassification(self.hparams["batch_dir"], self.hparams["batch_file"], self.hparams["num_points"], train=True)
+        self.train_dset = Custom3DClassification(self.hparams["batch_dir"], self.hparams["batch_file"], self.hparams["num_points"], train_transforms, train=True)
         self.val_dset = Custom3DClassification(self.hparams["batch_dir"], self.hparams["batch_file"], self.hparams["num_points"], train=False)
 
     def _build_dataloader(self, dset, mode):
