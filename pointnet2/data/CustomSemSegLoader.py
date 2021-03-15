@@ -20,7 +20,7 @@ class Custom3DSemSeg(data.Dataset):
         batches = file.read().splitlines()
         batch_amount = len(batches)
         training_percentage = 0.1
-        training_amount = max(2, round(training_percentage * batch_amount))
+        training_amount = round(training_percentage * batch_amount)
 
         if(training_amount == 0):
             raise ValueError("to few data, training amount is 0")
@@ -38,9 +38,6 @@ class Custom3DSemSeg(data.Dataset):
             self.points = np.array(data_batchlist[:training_amount])
             self.labels = np.array(label_batchlist[:training_amount])
 
-        print(self.points.shape)
-        print(self.labels.shape)
-
     def __getitem__(self, idx):
         all_pt_idxs = np.arange(0, self.points[idx].shape[0])
         np.random.shuffle(all_pt_idxs)
@@ -48,9 +45,6 @@ class Custom3DSemSeg(data.Dataset):
 
         current_points = torch.from_numpy(self.points[idx, pt_idxs]).float()
         current_labels = torch.from_numpy(self.labels[idx, pt_idxs]).long()
-
-        print(current_points.size())
-        print(current_labels.size())
 
         return current_points, current_labels
 
